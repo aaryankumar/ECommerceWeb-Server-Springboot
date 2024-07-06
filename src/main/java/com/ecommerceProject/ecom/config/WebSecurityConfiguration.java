@@ -38,7 +38,9 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(requests -> {
                     requests.requestMatchers("/authenticate","/sign-up","/order/**").permitAll();
                     requests.requestMatchers("api/**").authenticated();
-                }).formLogin(Customizer.withDefaults()).build();
+                }).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(authFilter,UsernamePasswordAuthenticationFilter.class)
+                .formLogin(Customizer.withDefaults()).build();
 
 
 
